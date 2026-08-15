@@ -1,20 +1,44 @@
-// https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
-$fg-color: #{"@theme_fg_color"};
-$bg-color: #{"@theme_bg_color"};
+@use "Colors";
+@use "Globals";
+
+* {
+  color: Colors.$theme_text_color;
+  font-size: Globals.$fontSize;
+  border: none;
+  border-radius: 0;
+}
 
 window.Bar {
   background: transparent;
-  color: $fg-color;
   font-weight: bold;
-
-  > centerbox {
-    background: $bg-color;
-    border-radius: 10px;
-    margin: 8px;
-  }
+  margin: 10px 10px 0 10px;
 
   button {
-    border-radius: 8px;
-    margin: 2px;
+    background-color: Colors.$theme_bg_color;
+    padding: 5px;
+    transition: Globals.$transitionDuration;
+
+    &:hover {
+      background-color: shade(Colors.$theme_bg_color, 0.88);
+    }
+  }
+
+  .workspaces button {
+    font-family: serif;
+    color: shade(Colors.$theme_text_color, .78);
+
+    * {
+      color: inherit;
+    }
+
+    &.visible {
+      background-color: shade(Colors.$theme_bg_color, 0.93);
+      color: shade(Colors.$theme_text_color, .92);
+    }
+
+    &.focused {
+      background-color: shade(Colors.$theme_bg_color, 0.88);
+      color: white
+    }
   }
 }

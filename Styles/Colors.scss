@@ -1,0 +1,61 @@
+// https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
+
+// widget text/foreground color
+$theme_fg_color: #{"@theme_fg_color"};
+
+// text color for entries, views and content in general
+$theme_text_color: #{"@theme_text_color"};
+
+// widget base background color
+$theme_bg_color: #{"@theme_bg_color"};
+
+// text widgets and the like base background color
+$theme_base_color: #{"@theme_base_color"};
+
+// base background color of selections
+$theme_selected_bg_color: #{"@theme_selected_bg_color"};
+
+// text/foreground color of selections
+$theme_selected_fg_color: #{"@theme_selected_fg_color"};
+
+// base background color of insensitive widgets
+$insensitive_bg_color: #{"@insensitive_bg_color"};
+
+// text foreground color of insensitive widgets
+$insensitive_fg_color: #{"@insensitive_fg_color"};
+
+// insensitive text widgets and the like base background color
+$insensitive_base_color: #{"@insensitive_base_color"};
+
+// widget text/foreground color on backdrop windows
+$theme_unfocused_fg_color: #{"@theme_unfocused_fg_color"};
+
+// text color for entries, views and content in general on backdrop windows
+$theme_unfocused_text_color: #{"@theme_unfocused_text_color"};
+
+// widget base background color on backdrop windows
+$theme_unfocused_bg_color: #{"@theme_unfocused_bg_color"};
+
+// text widgets and the like base background color on backdrop windows
+$theme_unfocused_base_color: #{"@theme_unfocused_base_color"};
+
+// base background color of selections on backdrop windows
+$theme_unfocused_selected_bg_color: #{"@theme_unfocused_selected_bg_color"};
+
+// text/foreground color of selections on backdrop windows
+$theme_unfocused_selected_fg_color: #{"@theme_unfocused_selected_fg_color"};
+
+// insensitive color on backdrop windows*/
+$unfocused_insensitive_color: #{"@unfocused_insensitive_color"};
+
+// widgets main borders color
+$borders: #{"@borders"};
+
+// widgets main borders color on backdrop windows
+$unfocused_borders: #{"@unfocused_borders"};
+
+// these are pretty self explicative
+$warning_color: #{"@warning_color"};
+$error_color: #{"@error_color"};
+$success_color: #{"@success_color"};
+
