@@ -26,7 +26,7 @@ export default function WorkspacesPanel(gdkmonitor: Gdk.Monitor) {
    // signal fired per client, so we accumulate the urgent workspace ids ourselves.
    // A workspace is cleared once it becomes focused (i.e. the user acknowledged it).
    const urgentWorkspaces = createConnection(new Set<number>(),
-      [hyprland, "urgent", (client, current) => new Set(current).add(client.workspace.id)],
+      [hyprland, "urgent", (client, current) => client ? new Set(current).add(client.workspace.id) : current],
       [hyprland, "notify::focused-workspace", (_pspec, current) => {
          const focusedId = hyprland.focusedWorkspace?.id;
          if (focusedId === undefined || !current.has(focusedId))
