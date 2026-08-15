@@ -1,0 +1,6 @@
+@use "../Colors";
+
+window.FloatingWindow {
+  background-color: Colors.$theme_bg_color;
+  padding: .5em;
+}

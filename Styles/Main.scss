@@ -1,67 +1,14 @@
 @use "Colors";
 @use "Globals";
 
+@use "Components/Bar";
+@use "Components/ArchMenu";
+@use "Components/FloatingWindow";
+
 * {
   color: Colors.$theme_text_color;
   font-size: Globals.$fontSize;
   font-family: Globals.$defaultFont;
   border: none;
   border-radius: 0;
-}
-
-@keyframes urgent-flash {
-  @for $i from 1 through 4 {
-    #{$i * 6}% {
-      @if $i % 2==0 {
-        background-color: Colors.$theme_bg_color;
-      } @else {
-      background-color: darkorange;
-      }
-    }
-  }
-}
-
-window.Bar {
-  background: transparent;
-  font-weight: bold;
-  margin: 10px 10px 0 10px;
-
-  button {
-    background-color: Colors.$theme_bg_color;
-    padding: 5px;
-    transition: Globals.$transitionDuration;
-
-    &:hover {
-      background-color: shade(Colors.$theme_bg_color, 0.8);
-    }
-  }
-
-  .workspaces button {
-    color: shade(Colors.$theme_text_color, .78);
-    font-family: Globals.$technicalFont;
-
-    * {
-      color: inherit;
-      font-family: inherit;
-    }
-
-    &.visible {
-      background-color: shade(Colors.$theme_bg_color, 0.85);
-      color: shade(Colors.$theme_text_color, .92);
-    }
-
-    &.focused {
-      background-color: shade(Colors.$theme_bg_color, 0.85);
-      color: white;
-
-    }
-
-    &.focused:hover {
-      background-color: shade(Colors.$theme_bg_color, 0.75);
-    }
-
-    &.urgent {
-      animation: urgent-flash 2.5s linear infinite;
-    }
-  }
 }

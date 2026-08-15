@@ -1,0 +1,63 @@
+@use "../Colors";
+@use "../Globals";
+
+@keyframes urgent-flash {
+  @for $i from 1 through 4 {
+    #{$i * 6}% {
+      @if $i % 2==0 {
+        background-color: Colors.$theme_bg_color;
+      } @else {
+      background-color: darkorange;
+      }
+    }
+  }
+}
+
+window.Bar {
+  background: transparent;
+  font-weight: bold;
+  margin: 10px 10px 0 10px;
+
+  button {
+    background-color: Colors.$theme_bg_color;
+    padding: 5px 8px;
+    transition: Globals.$transitionDuration;
+    font-family: Globals.$technicalFont;
+
+    * {
+      font-family: inherit;
+    }
+
+    &:hover {
+      background-color: shade(Colors.$theme_bg_color, 0.8);
+    }
+  }
+
+  .workspaces button {
+    color: shade(Colors.$theme_text_color, .78);
+    padding: 5px;
+
+    * {
+      color: inherit;
+    }
+
+    &.visible {
+      background-color: shade(Colors.$theme_bg_color, 0.85);
+      color: shade(Colors.$theme_text_color, .92);
+    }
+
+    &.focused {
+      background-color: shade(Colors.$theme_bg_color, 0.85);
+      color: white;
+
+    }
+
+    &.focused:hover {
+      background-color: shade(Colors.$theme_bg_color, 0.75);
+    }
+
+    &.urgent {
+      animation: urgent-flash 2.5s linear infinite;
+    }
+  }
+}
