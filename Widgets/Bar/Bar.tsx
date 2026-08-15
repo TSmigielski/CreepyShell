@@ -8,6 +8,9 @@ import WorkspacesPanel from "./WorkspacesPanel"
 import ClockDetailsWindow from "./ClockDetailsWindow"
 import ArchMenu from "./ArchMenu"
 
+// keyed by Gdk.Monitor.get_connector(), one ArchMenu instance per monitor
+export const archMenus = new Map<string, FlyInWindowSettings>();
+
 export default function Bar(monitor: Gdk.Monitor) {
    const now = createPoll(GLib.DateTime.new_now_local(), 1000, () => GLib.DateTime.new_now_local());
    const time = createComputed(() => now().format("%H:%M:%S %d.%m")!);
@@ -18,6 +21,7 @@ export default function Bar(monitor: Gdk.Monitor) {
    FloatingWindow(monitor, "ClockWindow", clockWindow, ClockDetailsWindow(verboseDate));
 
    const archMenu = new FlyInWindowSettings(Astal.WindowAnchor.TOP, {top: -200}, {top: 60});
+   archMenus.set(monitor.get_connector()!, archMenu);
    FloatingWindow(monitor, "ArchMenu", archMenu, ArchMenu());
 
    return (
