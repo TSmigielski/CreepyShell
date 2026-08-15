@@ -55,6 +55,7 @@ export class FlyInWindowSettings extends FloatingWindowSettings {
 
    #visible = false;
    #hideTimer: Timer | null = null;
+   #inhibitCount = 0;
 
    constructor(anchor: Astal.WindowAnchor, hiddenMargins: Partial<Margins>, shownMargins: Partial<Margins>) {
       super(anchor, hiddenMargins.top, hiddenMargins.right, hiddenMargins.bottom, hiddenMargins.left);
@@ -62,12 +63,17 @@ export class FlyInWindowSettings extends FloatingWindowSettings {
       this.visibleMargins = shownMargins;
    }
 
+   #scheduleHide = () => {
+      this.#hideTimer?.cancel();
+      this.#hideTimer = this.#visible && this.#inhibitCount === 0 && this.autoHideMs > 0
+         ? timeout(this.autoHideMs, this.#hide)
+         : null;
+   }
+
    #show = () => {
       this.#visible = true;
       this.setMargins(this.visibleMargins);
-
-      this.#hideTimer?.cancel();
-      this.#hideTimer = this.autoHideMs > 0 ? timeout(this.autoHideMs, this.#hide) : null;
+      this.#scheduleHide();
    }
 
    #hide = () => {
@@ -79,6 +85,19 @@ export class FlyInWindowSettings extends FloatingWindowSettings {
 
    toggle = () => {
       this.#visible ? this.#hide() : this.#show();
+   }
+
+   /** Pause auto-hide, e.g. while a popover inside this window is open. Nests safely across overlapping callers. */
+   inhibitAutoHide = () => {
+      this.#inhibitCount++;
+      this.#hideTimer?.cancel();
+      this.#hideTimer = null;
+   }
+
+   releaseAutoHide = () => {
+      this.#inhibitCount = Math.max(0, this.#inhibitCount - 1);
+      if (this.#inhibitCount === 0)
+         this.#scheduleHide();
    }
 }
 

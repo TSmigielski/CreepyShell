@@ -1,5 +1,15 @@
 .ArchMenu {
-  button:not(:last-child) {
+  > button:not(:last-child) {
     margin-bottom: .5em;
+  }
+
+  popover {
+    label {
+      margin-bottom: .333em;
+    }
+
+    button:first-child {
+      margin-right: .5em;
+    }
   }
 }

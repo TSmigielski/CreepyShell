@@ -20,9 +20,9 @@ export default function Bar(monitor: Gdk.Monitor) {
    clockWindow.autoHideMs = 2000;
    FloatingWindow(monitor, "ClockWindow", clockWindow, ClockDetailsWindow(verboseDate));
 
-   const archMenu = new FlyInWindowSettings(Astal.WindowAnchor.TOP, {top: -200}, {top: 60});
+   const archMenu = new FlyInWindowSettings(Astal.WindowAnchor.TOP, {top: -250}, {top: 60});
    archMenus.set(monitor.get_connector()!, archMenu);
-   FloatingWindow(monitor, "ArchMenu", archMenu, ArchMenu());
+   FloatingWindow(monitor, "ArchMenu", archMenu, ArchMenu(archMenu));
 
    return (
       <window
@@ -40,7 +40,7 @@ export default function Bar(monitor: Gdk.Monitor) {
             </box>
             <box $type="center">
                <button onClicked={archMenu.toggle}>
-                  <image file="/usr/share/pixmaps/archlinux-logo.svg" pixelSize={20} />
+                  <image file="/usr/share/pixmaps/archlinux-logo.svg" pixelSize={22} />
                </button>
             </box>
             <box $type="end">
