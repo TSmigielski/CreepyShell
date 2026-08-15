@@ -1,6 +1,6 @@
 import AstalHyprland from "gi://AstalHyprland"
 import { Gdk } from "ags/gtk4"
-import { createBinding, createComputed, For } from "gnim"
+import { Accessor, createBinding, createComputed, createConnection, For } from "gnim"
 
 const workspaceNames: string[] = [
    'Q',
@@ -22,32 +22,60 @@ export default function WorkspacesPanel(gdkmonitor: Gdk.Monitor) {
       .sort((a, b) => a.id - b.id)
    );
 
+   // AstalHyprland has no "urgent" property to bind to, only a one-shot "urgent"
+   // signal fired per client, so we accumulate the urgent workspace ids ourselves.
+   // A workspace is cleared once it becomes focused (i.e. the user acknowledged it).
+   const urgentWorkspaces = createConnection(new Set<number>(),
+      [hyprland, "urgent", (client, current) => new Set(current).add(client.workspace.id)],
+      [hyprland, "notify::focused-workspace", (_pspec, current) => {
+         const focusedId = hyprland.focusedWorkspace?.id;
+         if (focusedId === undefined || !current.has(focusedId))
+            return current;
+
+         // Copy rather than mutate: Accessor updates are detected by identity,
+         // so returning the same Set reference would not notify subscribers.
+         const next = new Set(current);
+         next.delete(focusedId);
+         return next;
+      }],
+   );
+
    return (
       <box class="workspaces">
          <For each={workspaces}>
-            {workspace => WorkspaceButton(workspace)}
+            {workspace => WorkspaceButton(workspace, urgentWorkspaces)}
          </For>
       </box>
    );
 }
 
-function WorkspaceButton(workspace: AstalHyprland.Workspace) {
+function WorkspaceButton(workspace: AstalHyprland.Workspace, urgentWorkspaces: Accessor<Set<number>>) {
    const hyprland = AstalHyprland.get_default();
    const focused = createBinding(hyprland, "focusedWorkspace");
    const focusedMonitor = createBinding(hyprland, "focusedMonitor");
    const activeOnMonitor = createBinding(workspace, "monitor", "activeWorkspace");
 
    const className = createComputed(() => {
+      const classes: string[] = [];
+
+      // "focused" = this workspace has system-wide keyboard focus.
+      // "visible" = this workspace is the active one on its own monitor, but
+      // that monitor isn't the currently focused one (mutually exclusive with "focused").
       if (focused()?.id === workspace.id)
-         return "focused";
+         classes.push("focused");
+      else if (activeOnMonitor()?.id === workspace.id && focusedMonitor()?.id !== workspace.monitor.id)
+         classes.push("visible");
 
-      if (activeOnMonitor()?.id === workspace.id && focusedMonitor()?.id !== workspace.monitor.id)
-         return "visible";
+      // "urgent" can stack on top of either of the above.
+      if (urgentWorkspaces().has(workspace.id))
+         classes.push("urgent");
 
-      return "";
+      return classes.join(" ");
    });
 
    return (
+      // hl.dsp.focus: this Hyprland build replaced the old plaintext
+      // `dispatch workspace <id>` IPC command with a Lua-based dispatcher.
       <button class={className} onClicked={() => hyprland.dispatch("hl.dsp.focus", `{workspace = ${workspace.id}}`)}>
          {workspaceNames[parseInt(workspace.name) - 1]}
       </button>
