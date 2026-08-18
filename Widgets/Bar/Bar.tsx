@@ -13,11 +13,11 @@ export const archMenus = new Map<string, FlyInWindowSettings>();
 
 export default function Bar(monitor: Gdk.Monitor) {
    const now = createPoll(GLib.DateTime.new_now_local(), 1000, () => GLib.DateTime.new_now_local());
-   const time = createComputed(() => now().format("%H:%M:%S %d.%m")!);
+   const time = createComputed(() => now().format("%d.%m %H:%M:%S")!);
    const verboseDate = createComputed(() => now().format("%A, %d %B %Y")!);
 
-   const clockWindow = new FlyInWindowSettings(Astal.WindowAnchor.TOP | Astal.WindowAnchor.RIGHT, {top: 47, right: -210}, {right: 5});
-   clockWindow.autoHideMs = 2000;
+   const clockWindow = new FlyInWindowSettings(Astal.WindowAnchor.TOP | Astal.WindowAnchor.RIGHT, {top: 47, right: -250}, {right: 5});
+   clockWindow.autoHideMs = 3000;
    FloatingWindow(monitor, "ClockWindow", clockWindow, ClockDetailsWindow(verboseDate));
 
    const archMenu = new FlyInWindowSettings(Astal.WindowAnchor.TOP, {top: -250}, {top: 60});
