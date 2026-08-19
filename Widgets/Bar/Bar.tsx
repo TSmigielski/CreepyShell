@@ -39,7 +39,7 @@ export default function Bar(monitor: Gdk.Monitor) {
                {WorkspacesPanel(monitor)}
             </box>
             <box $type="center">
-               <button onClicked={archMenu.toggle}>
+               <button class="iconPadding" onClicked={archMenu.toggle}>
                   <image file="/usr/share/pixmaps/archlinux-logo.svg" pixelSize={22} />
                </button>
             </box>
