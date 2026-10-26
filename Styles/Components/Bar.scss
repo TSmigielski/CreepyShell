@@ -82,5 +82,10 @@ window.Bar {
     &.urgent {
       animation: urgent-flash 2.5s linear infinite;
     }
+
+    // Duration must match URGENT_FLASH_MS in WorkspacesPanel.tsx.
+    &.urgentOnce {
+      animation: urgent-flash 2.5s linear 1;
+    }
   }
 }
