@@ -1,4 +1,8 @@
 .ArchMenu {
+  button {
+    font-weight: 500;
+  }
+
   > button:not(:last-child) {
     margin-bottom: .5em;
   }

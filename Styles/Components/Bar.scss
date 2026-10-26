@@ -15,7 +15,6 @@
 
 window.Bar {
   background: transparent;
-  font-weight: bold;
   margin: 10px 10px 0 10px;
 
   button {
@@ -23,18 +22,38 @@ window.Bar {
     padding: 6px 8px 4px 8px;
     transition: Globals.$transitionDuration;
     font-family: Globals.$technicalFont;
+    font-weight: normal;
 
     * {
       font-family: inherit;
     }
 
     &:hover {
-      background-color: shade(Colors.$theme_bg_color, 0.8);
+      background-color: shade(Colors.$theme_bg_color, 1.2);
     }
   }
 
   .iconPadding {
     padding: 5px;
+  }
+
+  // Some Nerd Font icon sets (e.g. Material Design Icons) render visibly
+  // smaller than others (Octicons, Codicons, ...) at the same font-size.
+  // The negative margin cancels the extra line-height the bigger font-size
+  // adds, so the glyph grows without inflating the whole pill.
+  .iconLg {
+    font-size: 1.6em;
+    margin: -6px 0;
+  }
+
+  .sysStat {
+    background-color: Colors.$theme_bg_color;
+    padding: 6px 8px 4px 8px;
+    font-family: Globals.$technicalFont;
+
+    * {
+      font-family: inherit;
+    }
   }
 
   .workspaces button {
